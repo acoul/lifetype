@@ -550,6 +550,7 @@ class XML_Tree_Node {
                            $xml
                           );
 
+	if(function_exists('preg_replace_callback_array')){
 	$xml = preg_replace_callback_array(
         [
             "/\&([a-z\d\#]+)\;/i" => function($matches) {
@@ -565,6 +566,20 @@ class XML_Tree_Node {
                 return '&#'.ord($matches[1]).';';
             }
         ], $xml);
+	}
+	else {
+	$xml = preg_replace(array("/\&([a-z\d\#]+)\;/i",
+		  "/\&/",
+		  "/\#\|\|([a-z\d\#]+)\|\|\#/i",
+		  "/([^a-zA-Z\d\s\<\>\&\;\.\:\=\"\-\/\%\?\!\'\(\)\[\]\{\}\$\#\+\,\@_])/e"
+		  ),
+		array("#||\\1||#",
+		  "&amp;",
+		  "'&#'.ord('\\1').';'"
+		  ),
+		$xml
+		);
+	}
 
         return $xml;
     }
