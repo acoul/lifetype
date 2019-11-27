@@ -171,7 +171,7 @@
 		$settings = bb2_read_settings();
         if( $settings['is_installed'] == false && $settings['logging'] )
 		{
-			bb2_db_query(bb2_table_structure($settings['log_table']));
+			bb2_db_query($settings['log_table']);
 			$settings['is_installed'] = true;
 			bb2_write_settings( $settings );
 		}
