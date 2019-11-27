@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{#insertaudio_dlg.title}</title>
+    <script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+    <script type="text/javascript" src="../../tiny_mce-plog-resourcelist.js"></script>
+    <script type="text/javascript">
+        tinyMCEPopup.requireLangPack();
+        function isValidUrl( url )
+        {
+            var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+            return regexp.test(url);
+        }
+
+        function insertAudioCode()
+        {
+            // get and check the URL
+            url = document.audio.url.value;
+            if( url === "" || !isValidUrl( url )) {
+                window.alert( tinyMCEPopup.getLang('insertaudio_dlg.badurl', 0) );
+                return( false );
+            }
+
+            insertMediaPlayer(url,true,'20','300');
+            return true
+        }
+    </script>
+    <base target="_self" />
+</head>
+<body style="display: none">
+    <form name="audio" id="audio" method="post" action="#">
+        <div class="tabs">
+            <ul>
+                <li id="general_tab" class="current"><span>{#insertaudio_dlg.title}</span></li>
+            </ul>
+        </div>
+        <div class="panel_wrapper">
+            <div id="general_panel" class="panel_current">
+                 <legend>{#insertaudio_dlg.panel_legend}</legend>
+                 <table border="0" cellpadding="4" cellspacing="0">
+                     <tr>
+                         <td nowrap="nowrap">{#insertaudio_dlg.audio_url}</td>
+                         <td><input type="text" id="url" name="url" value="" {#insertaudio_dlg.inputurlstyle} /></td>
+                     </tr>
+                 </table>
+            </div>
+        </div>
+        <div class="mceActionPanel">
+            <div style="float:left">
+                <input type="button" name="insert" value="{#insert}" onClick="insertAudioCode();" id="insert" />
+            </div>
+            <div style="float:right">
+                <input type="button" name="cancel" value="{#close}" onclick="tinyMCEPopup.close();" id="cancel" />
+            </div>
+        </div>
+    </form>
+</body>
+</html>

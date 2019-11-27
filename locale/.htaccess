@@ -1,0 +1,6 @@
+<Files "*">
+ Order allow,deny
+ Deny from all
+</Files>
+
+ErrorDocument 403  "Access is not allowed"

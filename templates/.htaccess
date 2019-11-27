@@ -1,0 +1,13 @@
+# If you want to prevent someone stealing your templates,
+# you can unmark the following code to enable the protection.
+#
+# <Files *.template> 
+# deny from all 
+# </Files>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 2 days"
+  ExpiresByType image/* "access plus 1 month"
+</IfModule>
+

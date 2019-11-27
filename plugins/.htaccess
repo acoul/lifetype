@@ -1,0 +1,20 @@
+# case insensitive file matching.  See conversations on the svn list circa 2008-03-29
+# regarding this setting.  It is basically impossible to get this string perfect,
+# and so there is an inherent security risk of allowing untrusted users to upload
+# files
+<Files ~ "/\.(php|php3|php4|php5|php6|pht|php3p|phtml|htm|html|pl|py|pyc|pyo|rb|cgi)$/i">
+ Order allow,deny
+ Deny from all
+</Files>
+
+
+# to be more secure, you can deny access to all files
+# and then only allow access to specific extensions
+#<Files "*">
+# Order allow,deny
+# Deny from all
+#</Files>
+#
+#<Files ~ "/\.(gif|jpg|mp3|mov|png|bmp|pdf)$/i">
+#  Allow from all
+#</Files>

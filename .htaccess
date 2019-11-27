@@ -1,0 +1,145 @@
+<Files .htaccess> 
+deny from all 
+</Files> 
+
+<Files config.properties.php> 
+deny from all 
+</Files>
+
+Options -Indexes
+Options +FollowSymLinks
+
+<IfModule mod_rewrite.c>
+
+RewriteEngine On
+RewriteBase /
+
+# Point to the sitemap file that is local to the blog. This is a Plugin 
+# specific rewrite rule and can safely be commented out, if you are not using
+# the Sitemap plugin (http://wiki.lifetype.net/index.php/Plugin_sitemap).
+RewriteRule ^sitemap([0-9]+)\.gz$ tmp/sitemap/$1/sitemap.gz [L,NC]
+
+# Permalink to the blog entry (i.e. /1_userfoo/archive/3_title-foo-bar.html)
+RewriteRule ^([0-9]+)_[^/]+/archive/([0-9]+)_[^.]+\.html$ index.php?op=ViewArticle&blogId=$1&articleId=$2 [L,NC]
+# -- same as above but with paging included
+RewriteRule ^([0-9]+)_[^/]+/archive/([0-9]+)_[^.]+\.html\.page\.([0-9]+)$ index.php?op=ViewArticle&blogId=$1&articleId=$2&page=$3 [L,NC]
+
+# Monthly archive (i.e. /1_userfoo/archive/200401.html) 
+RewriteRule ^([0-9]+)_[^/]+/archive/([0-9]{6})\.html$ index.php?blogId=$1&Date=$2 [L,NC]
+# -- same as above but with paging included
+RewriteRule ^([0-9]+)_[^/]+/archive/([0-9]{6})\.html\.page\.([0-9]+)$ index.php?blogId=$1&Date=$2&page=$3 [L,NC]
+
+# Daily archive (i.e. /1_blogfoo/archive/20040101.html)
+RewriteRule ^([0-9]+)_[^/]+/archive/([0-9]{8})\.html$ index.php?blogId=$1&Date=$2 [L,NC]
+# -- same as above but with paging included
+RewriteRule ^([0-9]+)_[^/]+/archive/([0-9]{8})\.html\.page\.([0-9]+)$ index.php?blogId=$1&Date=$2&page=$3 [L,NC]
+
+# Album (i.e. /88_userfoo/albums/34_title-foo-bar.html)
+RewriteRule ^([0-9]+)_[^/]+/albums/([0-9]+)_[^.]+\.html$ index.php?op=ViewAlbum&blogId=$1&albumId=$2 [L,NC]
+# -- same as above but with paging included
+RewriteRule ^([0-9]+)_[^/]+/albums/([0-9]+)_[^.]+\.html\.page\.([0-9]+)$ index.php?op=ViewAlbum&blogId=$1&albumId=$2&page=$3 [L,NC]
+
+# Albums (i.e. /88_userfoo/albums/)
+RewriteRule ^([0-9]+)_[^/]+/albums/$ index.php?op=ViewAlbum&blogId=$1&albumId=0 [L,NC]
+
+# Category view (i.e. /88_userfoo/categories/4_cat-foobar.html)
+RewriteRule ^([0-9]+)_[^/]+/categories/([0-9]+)_[^.]+\.html$ index.php?blogId=$1&postCategoryId=$2 [L,NC]
+# -- same as above but with paging included
+RewriteRule ^([0-9]+)_[^/]+/categories/([0-9]+)_[^.]+\.html\.page\.([0-9]+)$ index.php?blogId=$1&postCategoryId=$2&page=$3 [L,NC]
+
+# Category-Feeds (i.e. /3_userfoo/feeds/categories/2_category/atom)
+RewriteRule ^([0-9]+)_[^/]+/feeds/categories/([0-9]+)_[^.]+/(.*)$ rss.php?blogId=$1&categoryId=$2&profile=$3 [L,NC]
+
+# Feeds (i.e. /3_userfoo/feeds/atom)
+RewriteRule ^([0-9]+)_[^/]+/feeds/(.*)$ rss.php?blogId=$1&profile=$2 [L,NC]
+
+# Trackbacks (i.e. /3_userfoo/trackbacks/34_title-foo-bar.html)
+RewriteRule ^([0-9]+)_[^/]+/trackbacks/([0-9]+)_[^.]+\.html$ index.php?op=Trackbacks&blogId=$1&articleId=$2 [L,NC]
+
+# Comment form (i.e. /88_userfoo/comment/34_title-foo-bar.html)
+RewriteRule ^([0-9]+)_[^/]+/comment/([0-9]+)_[^.]+\.html$ index.php?op=Comment&blogId=$1&articleId=$2 [L,NC]
+
+# Resources (i.e. /88_userfoo/resources/this-is-a-resource-name.pdf.html)
+RewriteRule ^([0-9]+)_[^/]+/resources/([^.]+)\.([^.]+)\.html$ index.php?op=ViewResource&blogId=$1&resource=$2.$3 [L,NC]
+
+# Download a resource (i.e. /88_userfoo/get/this-is-a-resource-name.pdf)
+RewriteRule ^([0-9]+)_[^/]+/get/(.+)$ resserver.php?blogId=$1&resource=$2 [L,NC]
+
+# Static Pages (i.e /3_userfoo/demosites)
+RewriteRule ^([0-9]+)_[^/]+/(.+)$ index.php?op=Template&blogId=$1&show=$2 [L,NC]
+
+# A non-default blog (i.e. /88_userfoo)
+RewriteRule ^([0-9]+)_[^.]+$ index.php?blogId=$1 [L,NC]
+# -- same as above but with paging included
+RewriteRule ^([0-9]+)_[^.]+\.page\.([0-9]+)$ index.php?blogId=$1&page=$2 [L,NC]
+
+# If you would like to use custom urls but ForceType or SetType directives do
+# not work on your server (e.g. PHP is running as CGI/FastCGI) you may uncomment
+# the rewrite rule below to rewrite all requests to ./blog to ./blog.php.
+# Please note that this works only as long as you don't change the default
+# custom url patterns in your LifeType administration.
+## RewriteRule ^blog/(.+)  blog.php/$1 [L,NC]
+
+</IfModule>
+
+
+
+<Files post>
+ ForceType application/x-httpd-php
+</Files>
+
+<Files archives>
+ ForceType application/x-httpd-php
+</Files>
+
+<Files static>
+ ForceType application/x-httpd-php
+</Files>
+
+<Files rss>
+ ForceType application/x-httpd-php
+</Files>
+
+<Files category>
+ ForceType application/x-httpd-php
+</Files>
+
+<Files trackbacks>
+ ForceType application/x-httpd-php
+</Files>
+
+<Files comment>
+ ForceType application/x-httpd-php
+</Files>
+
+<Files resource>
+ ForceType application/x-httpd-php
+</Files>
+
+<Files get>
+ ForceType application/x-httpd-php
+</Files>
+
+<Files album>
+ ForceType application/x-httpd-php
+</Files>
+
+<Files blog>
+ ForceType application/x-httpd-php
+</Files>
+
+<Files user>
+ ForceType application/x-httpd-php
+</Files>
+
+<Files content>
+ ForceType application/x-httpd-php
+</Files>
+
+<Files page>
+ ForceType application/x-httpd-php
+</Files>
+
+ErrorDocument 401 /error.php
+ErrorDocument 403 /error.php
+ErrorDocument 404 /error.php

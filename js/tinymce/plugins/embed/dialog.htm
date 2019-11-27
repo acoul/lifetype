@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{#embed_dlg.title}</title>
+    <script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+    <script type="text/javascript" src="js/dialog.js"></script>
+</head>
+<body>
+    <form onsubmit="EmbedDialog.insert();return false;" action="#">
+        <div class="tabs">
+            <ul>
+                <li id="general_tab" class="current"><span>{#embed_dlg.title}</span></li>
+            </ul>
+        </div>
+        <div class="panel_wrapper">
+            <div id="general_panel" class="panel_current">
+                 <legend>{#embed_dlg.desc}</legend>
+                 <textarea id="embedcode" name="embedcode" type="text" style="height:220px;width:100%"></textarea>
+            </div>
+        </div>
+        <div class="mceActionPanel">
+            <div style="float: left">
+                <input type="button" id="insert" name="insert" value="{#insert}" onclick="EmbedDialog.insert();" />
+            </div>
+            <div style="float: right">
+                <input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+            </div>
+        </div>
+    </form>
+</body>
+</html>

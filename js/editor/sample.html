@@ -1,0 +1,22 @@
+<html>
+<head>
+<link rel="stylesheet" href="plogeditor.css" type="text/css">
+<script type="text/javascript" src="plogeditor.js"></script>
+<script type="text/javascript">
+ // our images are located somewhere else...
+ var baseImageFolder='http://localhost/trunk/js/editor/images';
+</script>
+</head>
+<body>
+<h1>pLogEditor Javascript Sample</h1>
+<form name="textEditor" id="textEditor">
+text1:<br/>
+<script type="text/javascript">ed1 = new pLogEditor('text1', 'ed1');</script>
+<textarea id="text1" name="text1" rows="8" cols="60"></textarea>
+<br/>text2:<br/>
+<script type="text/javascript">ed2 = new pLogEditor('text2', 'ed2');</script>
+<textarea id="text2" name="text1" rows="8" cols="60"></textarea>
+</form>
+</body>
+</script>
+</html>

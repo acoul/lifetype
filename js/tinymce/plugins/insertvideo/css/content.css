@@ -1,0 +1,56 @@
+.ltVideoYouTube {
+	border: 1px dotted #cc0000;
+	background-image: url('../img/youtube.png');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: #ffffcc;
+}
+.ltVideoVimeo {
+	border: 1px dotted #cc0000;
+	background-image: url('../img/vimeo.png');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: #ffffcc;
+}
+.ltVideoGoogleVideo {
+	border: 1px dotted #cc0000;
+	background-image: url('../img/gvideo.png');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: #ffffcc;
+}
+.ltVideoMetacafe {
+	border: 1px dotted #cc0000;
+	background-image: url('../img/metacafe.png');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: #ffffcc;
+	}
+.ltVideoIfilm {
+	border: 1px dotted #cc0000;
+	background-image: url('../img/ifilm.png');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: #ffffcc;
+	}
+.ltVideoGoear {
+	border: 1px dotted #cc0000;
+	background-image: url('../img/goear.png');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: #ffffcc;
+	}
+.ltVideoGrouper {
+	border: 1px dotted #cc0000;
+	background-image: url('../img/grouper.png');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: #ffffcc;
+	}
+.ltVideoDailymot {
+	border: 1px dotted #cc0000;
+	background-image: url('../img/dailymotion.png');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: #ffffcc;
+	}

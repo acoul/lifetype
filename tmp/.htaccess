@@ -1,0 +1,14 @@
+<Files "*">
+ Order allow,deny
+ Deny from all
+</Files>
+
+<Files "*.gif">
+ Order deny,allow
+ Allow from all
+</Files>
+
+<Files "*.png">
+ Order deny,allow
+ Allow from all
+</Files>
