@@ -74,7 +74,7 @@
         function Template( $templateFile )
         {
             // create the Smarty object and set the security values
-            $this->Smarty();
+            $this->__construct();
             $this->caching = false;
             //$this->cache_lifetime =  $cacheLifetime;
             $config =& Config::getConfig();
