@@ -2,8 +2,8 @@
 
 $Tables["articles"]["schema"] = "
   id I(10) UNSIGNED NOTNULL AUTOINCREMENT PRIMARY,
-  date T(14) NOTNULL,
-  modification_date T(14) NOTNULL,
+  date T(6) NOTNULL,
+  modification_date T(6) NOTNULL,
   user_id I(10) UNSIGNED NOTNULL DEFAULT '0',
   blog_id I(10) UNSIGNED NOTNULL DEFAULT '0',
   status I(5) NOTNULL DEFAULT 1,
@@ -23,14 +23,14 @@ $Tables["articles"]["schema"] = "
   INDEX global_category_status (global_category_id, status),
   INDEX date(date)
 ";
-$Tables["articles"]["options"] = "TYPE=MyISAM";
+$Tables["articles"]["options"] = "ENGINE=MyISAM";
 
 $Tables["articles_categories"]["schema"] = "
   id I(10) UNSIGNED NOTNULL AUTOINCREMENT PRIMARY,
   name C(255) NOTNULL DEFAULT '',
   url C(255) NOTNULL DEFAULT '',
   blog_id I(10) UNSIGNED NOTNULL DEFAULT '0',
-  last_modification T(14) NOTNULL,
+  last_modification T(6) NOTNULL,
   in_main_page I1(1) NOTNULL DEFAULT '1',
   parent_id I(10) NOTNULL DEFAULT '0',
   description TEXT NOTNULL DEFAULT '',
@@ -42,7 +42,7 @@ $Tables["articles_categories"]["schema"] = "
   INDEX blog_id (blog_id),
   INDEX mangled_name (mangled_name)
 ";
-$Tables["articles_categories"]["options"] = "TYPE=MyISAM";
+$Tables["articles_categories"]["options"] = "ENGINE=MyISAM";
 
 
 $Tables["articles_comments"]["schema"] = "
@@ -51,7 +51,7 @@ $Tables["articles_comments"]["schema"] = "
   blog_id I(10) UNSIGNED NOTNULL DEFAULT 0,
   topic TEXT NOTNULL,
   text X,
-  date T(14) NOTNULL,
+  date T(6) NOTNULL,
   user_id I(10) DEFAULT '0',
   user_email C(255) DEFAULT '',
   user_url C(255) DEFAULT '',
@@ -73,7 +73,7 @@ $Tables["articles_comments"]["schema"] = "
   FULLTEXT normalized_text (normalized_text),
   FULLTEXT normalized_topic (normalized_topic)
 ";
-$Tables["articles_comments"]["options"] = "TYPE=MyISAM";
+$Tables["articles_comments"]["options"] = "ENGINE=MyISAM";
 
 $Tables["articles_notifications"]["schema"] = "
   id I(10) NOTNULL AUTOINCREMENT PRIMARY,
@@ -84,7 +84,7 @@ $Tables["articles_notifications"]["schema"] = "
   INDEX user_id (user_id),
   INDEX blog_id (blog_id)
 ";
-$Tables["articles_notifications"]["options"] = "TYPE=MyISAM";
+$Tables["articles_notifications"]["options"] = "ENGINE=MyISAM";
 
 $Tables["blogs"]["schema"] = "
   id I(10) UNSIGNED NOTNULL AUTOINCREMENT INDEX PRIMARY,
@@ -96,8 +96,8 @@ $Tables["blogs"]["schema"] = "
   mangled_blog varchar(50) NOTNULL DEFAULT '',
   status I(4) NOTNULL DEFAULT '1',
   show_in_summary I(4) NOTNULL DEFAULT '1',
-  create_date T(14) NOTNULL,
-  last_update_date T(14) NOTNULL,
+  create_date T(6) NOTNULL,
+  last_update_date T(6) NOTNULL,
   num_posts I(10) NOTNULL DEFAULT '0',
   num_comments I(10) NOTNULL DEFAULT '0',
   num_trackbacks I(10) NOTNULL DEFAULT '0',
@@ -108,7 +108,7 @@ $Tables["blogs"]["schema"] = "
   INDEX custom_domain(custom_domain),
   INDEX create_date(create_date)
 ";
-$Tables["blogs"]["options"] = "TYPE=MyISAM";
+$Tables["blogs"]["options"] = "ENGINE=MyISAM";
 
 $Tables["mylinks"]["schema"] = "
   id I(10) UNSIGNED NOTNULL AUTOINCREMENT PRIMARY,
@@ -118,23 +118,23 @@ $Tables["mylinks"]["schema"] = "
   description TEXT NOTNULL,
   blog_id I(10) UNSIGNED NOTNULL DEFAULT '0',
   rss_feed C(255) NOTNULL DEFAULT '',
-  date T(14) NOTNULL,
+  date T(6) NOTNULL,
   properties TEXT NOTNULL DEFAULT '',
   INDEX blog_id (blog_id),
   INDEX category_id (category_id)
 ";
-$Tables["mylinks"]["options"] = "TYPE=MyISAM";
+$Tables["mylinks"]["options"] = "ENGINE=MyISAM";
 
 $Tables["mylinks_categories"]["schema"] = "
   id I(10) NOTNULL AUTOINCREMENT PRIMARY,
   name varchar(100) NOTNULL DEFAULT '',
   blog_id I(10) NOTNULL DEFAULT '0',
-  last_modification T(14) NOTNULL,
+  last_modification T(6) NOTNULL,
   properties TEXT NOTNULL DEFAULT '',
   num_links I(10) NOTNULL DEFAULT '0',
   INDEX blog_id (blog_id)
 ";
-$Tables["mylinks_categories"]["options"] = "TYPE=MyISAM";
+$Tables["mylinks_categories"]["options"] = "ENGINE=MyISAM";
 
 $Tables["permissions"]["schema"] = "
   id I(10) UNSIGNED NOTNULL AUTOINCREMENT PRIMARY,
@@ -143,7 +143,7 @@ $Tables["permissions"]["schema"] = "
   admin_only I(1) NOTNULL DEFAULT '1',
   core_perm I(1) NOTNULL DEFAULT '1'
 ";
-$Tables["permissions"]["options"] = "TYPE=MyISAM";
+$Tables["permissions"]["options"] = "ENGINE=MyISAM";
 
 $Tables["referers"]["schema"] = "
   id I(10) NOTNULL AUTOINCREMENT PRIMARY,
@@ -151,11 +151,11 @@ $Tables["referers"]["schema"] = "
   article_id I(10) NOTNULL DEFAULT '0',
   blog_id I(10) NOTNULL DEFAULT '0',
   hits I(10) DEFAULT '1',
-  last_date T(14),
+  last_date T(6),
   INDEX article_id (article_id),
   INDEX blog_id_article_id (blog_id, article_id)
 ";
-$Tables["referers"]["options"] = "TYPE=MyISAM";
+$Tables["referers"]["options"] = "ENGINE=MyISAM";
 
 $Tables["users"]["schema"] = "
   id I(10) UNSIGNED NOTNULL AUTOINCREMENT PRIMARY,
@@ -168,10 +168,10 @@ $Tables["users"]["schema"] = "
   status I(4) NOTNULL DEFAULT 1,
   resource_picture_id I(10) NOTNULL DEFAULT 0,
   site_admin I(10) NOTNULL DEFAULT '0',
-  last_login T(14),
+  last_login T(6),
   UNIQUE user (user)
 ";
-$Tables["users"]["options"] = "TYPE=MyISAM";
+$Tables["users"]["options"] = "ENGINE=MyISAM";
 
 $Tables["users_permissions"]["schema"] = "
   id I(10) UNSIGNED NOTNULL AUTOINCREMENT PRIMARY,
@@ -181,7 +181,7 @@ $Tables["users_permissions"]["schema"] = "
   INDEX blog_id (blog_id),
   INDEX user_id_permission_id (user_id,permission_id)
 ";
-$Tables["users_permissions"]["options"] = "TYPE=MyISAM";
+$Tables["users_permissions"]["options"] = "ENGINE=MyISAM";
 
 //
 // temporary table only used during the upgrade process, will be dropped at the end of it
@@ -194,29 +194,29 @@ $Tables["tmp_users_permissions"]["schema"] = "
   INDEX blog_id (blog_id),
   INDEX user_id_permission_id (user_id,permission_id)
 ";
-$Tables["users_permissions"]["options"] = "TYPE=MyISAM";
+$Tables["users_permissions"]["options"] = "ENGINE=MyISAM";
 
 $Tables["config"]["schema"] = "
    config_key C(255) NOTNULL DEFAULT '' PRIMARY,
    config_value TEXT NOTNULL,
    value_type I(3) DEFAULT '0'
 ";
-$Tables["config"]["options"] = "TYPE=MyISAM";
+$Tables["config"]["options"] = "ENGINE=MyISAM";
 
 $Tables["filtered_content"]["schema"] = "
    id I(10) NOTNULL AUTOINCREMENT PRIMARY,
    reg_exp X,
    blog_id I(10) NOTNULL DEFAULT '0',
    reason X,
-   date T(14) NOTNULL,
+   date T(6) NOTNULL,
    INDEX blog_id (blog_id)
 ";
-$Tables["filtered_content"]["options"] = "TYPE=MyISAM";
+$Tables["filtered_content"]["options"] = "ENGINE=MyISAM";
 
 $Tables["host_blocking_rules"]["schema"] = "
    id I(10) NOTNULL AUTOINCREMENT PRIMARY,
    reason X,
-   date T(14) NOTNULL,
+   date T(6) NOTNULL,
    blog_id I(10) NOTNULL DEFAULT '0',
    block_type I(1) DEFAULT '1',
    list_type I(1) DEFAULT '1',
@@ -225,14 +225,14 @@ $Tables["host_blocking_rules"]["schema"] = "
    INDEX block_type (block_type),
    INDEX blog_id_block_type(blog_id, block_type)
 ";
-$Tables["host_blocking_rules"]["options"] = "TYPE=MyISAM";
+$Tables["host_blocking_rules"]["options"] = "ENGINE=MyISAM";
 
 $Tables["gallery_resources"]["schema"] = "
    id I(10) NOTNULL AUTOINCREMENT PRIMARY,
    owner_id I(10) NOTNULL DEFAULT '0',
    album_id I(10) NOTNULL DEFAULT '0',
    description X,
-   date T(14) NOTNULL,
+   date T(6) NOTNULL,
    flags I(10) DEFAULT '0',
    resource_type I(3) DEFAULT NULL,
    file_path C(255) DEFAULT '',
@@ -248,7 +248,7 @@ $Tables["gallery_resources"]["schema"] = "
    INDEX resource_type (resource_type),
    FULLTEXT normalized_description (normalized_description)
 ";
-$Tables["gallery_resources"]["options"] = "TYPE=MyISAM";
+$Tables["gallery_resources"]["options"] = "ENGINE=MyISAM";
 
 $Tables["gallery_albums"]["schema"] = "
    id I(10) NOTNULL AUTOINCREMENT PRIMARY,
@@ -257,7 +257,7 @@ $Tables["gallery_albums"]["schema"] = "
    name C(255) NOTNULL DEFAULT '',
    flags I(10) NOTNULL DEFAULT '0',
    parent_id I(10) NOTNULL DEFAULT '0',
-   date T(14) NOTNULL,
+   date T(6) NOTNULL,
    properties TEXT NOTNULL DEFAULT '',
    show_album I1(1) DEFAULT 1,
    normalized_description TEXT NOTNULL DEFAULT '',
@@ -272,7 +272,7 @@ $Tables["gallery_albums"]["schema"] = "
    FULLTEXT normalized_description (normalized_description),
    FULLTEXT normalized_fields (normalized_name, normalized_description)
 ";
-$Tables["gallery_albums"]["options"] = "TYPE=MyISAM";
+$Tables["gallery_albums"]["options"] = "ENGINE=MyISAM";
 
 $Tables["bayesian_filter_info"]["schema"] = "
    id I(10) UNSIGNED NOTNULL AUTOINCREMENT PRIMARY,
@@ -281,7 +281,7 @@ $Tables["bayesian_filter_info"]["schema"] = "
    total_nonspam I(10) UNSIGNED DEFAULT NULL,
    INDEX blog_id (blog_id)
 ";
-$Tables["bayesian_filter_info"]["options"] = "TYPE=MyISAM";
+$Tables["bayesian_filter_info"]["options"] = "ENGINE=MyISAM";
 
 $Tables["bayesian_tokens"]["schema"] = "
    id I(10) UNSIGNED NOTNULL AUTOINCREMENT PRIMARY,
@@ -293,13 +293,13 @@ $Tables["bayesian_tokens"]["schema"] = "
    INDEX blog_id (blog_id),
    INDEX token (token)
 ";
-$Tables["bayesian_tokens"]["options"] = "TYPE=MyISAM";
+$Tables["bayesian_tokens"]["options"] = "ENGINE=MyISAM";
 
 $Tables["article_categories_link"]["schema"] = "
    article_id I(10) NOTNULL PRIMARY,
    category_id I(10) NOTNULL PRIMARY
 ";
-$Tables["article_categories_link"]["options"] = "TYPE=MyISAM";
+$Tables["article_categories_link"]["options"] = "ENGINE=MyISAM";
 
 $Tables["custom_fields_definition"]["schema"] = "
    id I(10) NOTNULL AUTOINCREMENT PRIMARY,
@@ -308,12 +308,12 @@ $Tables["custom_fields_definition"]["schema"] = "
    field_type I(2) NOTNULL DEFAULT '1',
    field_values TEXT NOTNULL DEFAULT '',
    blog_id I(10) NOTNULL DEFAULT '0',
-   date T(14),
+   date T(6),
    searchable I1(1) DEFAULT 1,
    hidden I1(1) DEFAULT 1,
    INDEX blog_id (blog_id)
 ";
-$Tables["custom_fields_definition"]["options"] = "TYPE=MyISAM";
+$Tables["custom_fields_definition"]["options"] = "ENGINE=MyISAM";
 
 $Tables["custom_fields_values"]["schema"] = "
    id I(10) NOTNULL AUTOINCREMENT PRIMARY,
@@ -327,7 +327,7 @@ $Tables["custom_fields_values"]["schema"] = "
    INDEX field_id (field_id),
    INDEX blog_id_article_id (blog_id, article_id)
 ";
-$Tables["custom_fields_values"]["options"] = "TYPE=MyISAM";
+$Tables["custom_fields_values"]["options"] = "ENGINE=MyISAM";
 
 $Tables["articles_text"]["schema"] = "
    id I(10) NOTNULL AUTOINCREMENT PRIMARY,
@@ -342,7 +342,7 @@ $Tables["articles_text"]["schema"] = "
    FULLTEXT normalized_topic (normalized_topic),
    FULLTEXT normalized_fields (normalized_text, normalized_topic)
 ";
-$Tables["articles_text"]["options"] = "TYPE=MyISAM";
+$Tables["articles_text"]["options"] = "ENGINE=MyISAM";
    
 $Tables["phpbb2_users"]["schema"] = "
    id I(10) UNSIGNED NOTNULL AUTOINCREMENT PRIMARY,
@@ -354,7 +354,7 @@ $Tables["phpbb2_users"]["schema"] = "
    status I(10) NOTNULL DEFAULT 0,
    UNIQUE phpbb_id(phpbb_id)
 ";
-$Tables["phpbb2_users"]["options"] = "TYPE=MyISAM";
+$Tables["phpbb2_users"]["options"] = "ENGINE=MyISAM";
    
 $Tables["blog_categories"]["schema"] = "
    id I(10) UNSIGNED NOTNULL AUTOINCREMENT PRIMARY,
@@ -366,7 +366,7 @@ $Tables["blog_categories"]["schema"] = "
    num_active_blogs I(10) NOTNULL DEFAULT '0',
    INDEX mangled_name(mangled_name)
 ";
-$Tables["blog_categories"]["options"] = "TYPE=MyISAM";
+$Tables["blog_categories"]["options"] = "ENGINE=MyISAM";
    
 $Tables["global_articles_categories"]["schema"] = "
    id I(10) UNSIGNED NOTNULL AUTOINCREMENT PRIMARY,
@@ -378,6 +378,6 @@ $Tables["global_articles_categories"]["schema"] = "
    num_active_articles I(10) NOTNULL DEFAULT '0',
    INDEX mangled_name(mangled_name)
 ";
-$Tables["global_articles_categories"]["options"] = "TYPE=MyISAM";
+$Tables["global_articles_categories"]["options"] = "ENGINE=MyISAM";
 
 ?>
