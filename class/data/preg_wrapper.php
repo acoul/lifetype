@@ -1,5 +1,9 @@
 <?php
 
+	/**
+	 * https://github.com/lastwhitebird/preg_replace_e
+	 */
+
 function is_evaled_preg($str)
 {
     if (!preg_match('~([a-z]+)$~i', $str, $ext))
