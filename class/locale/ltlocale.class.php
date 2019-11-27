@@ -35,7 +35,7 @@
 	/**
 	 * default encoding if the locale does not specify one
 	 */
-	define( "DEFAULT_ENCODING", "iso-8859-1" );
+	define( "DEFAULT_ENCODING", "utf-8" );
     
     /**
      * default direction for texts, if the locale does not specify one

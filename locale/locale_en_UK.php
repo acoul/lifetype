@@ -1,7 +1,7 @@
 <?php
 
 // set this to the encoding that should be used to display the pages correctly
-$messages['encoding'] = 'iso-8859-1';
+$messages['encoding'] = 'utf-8';
 $messages['locale_description'] = 'English locale file for LifeType';
 // locale format, see LTLocale::formatDate for more information
 $messages['date_format'] = '%d/%m/%Y %H:%M';

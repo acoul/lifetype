@@ -27,7 +27,7 @@
 	/**
 	 * default content-type that is going to be sent in HTTP headers
 	 */
-	define( "DEFAULT_VIEW_CHARSET", "iso-8859-1" );
+	define( "DEFAULT_VIEW_CHARSET", "utf-8" );
 	
 	/**
 	 * default page where we should start if the "page" parameter is not

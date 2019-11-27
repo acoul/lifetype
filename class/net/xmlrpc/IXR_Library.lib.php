@@ -278,7 +278,7 @@ class IXR_Server {
     var $callbacks = array();
     var $message;
     var $capabilities;
-	var $defencoding = 'iso-8859-1';
+	var $defencoding = 'utf-8';
     function IXR_Server($callbacks = false, $data = false) {
         $this->setCapabilities();
         if ($callbacks) {
