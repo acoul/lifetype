@@ -10,6 +10,10 @@
   * @email: dan@rootcube.com
   * @license: GNU General Public License (GPL)
   */
+
+lt_include( PLOG_CLASS_PATH."class/data/preg_wrapper.php" );
+//include 'preg_wrapper.php';
+
 class InputFilter {
 	var $tagsArray;			// default = empty array
 	var $attrArray;			// default = empty array
@@ -218,7 +222,7 @@ class InputFilter {
 				$attrSubSet[1] = str_replace('&#', '', $attrSubSet[1]);
 				// strip normal newline within attr value
                 // jondaley/lifetype: this also stripped out all whitespace, not just newlines
-				$attrSubSet[1] = preg_replace('/\n\r/', '', $attrSubSet[1]);
+				$attrSubSet[1] = my_preg_replace('/\n\r/', '', $attrSubSet[1]);
 				// strip double quotes
 				$attrSubSet[1] = str_replace('"', '', $attrSubSet[1]);
 				// [requested feature] convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr value)
@@ -264,9 +268,14 @@ class InputFilter {
         // post HTML source in their posts, ie. &lt; etc.
 //		$source = html_entity_decode($source, ENT_QUOTES, "ISO-8859-1");
 		// convert decimal
-		$source = preg_replace('/&#(\d+);/me',"chr(\\1)", $source);				// decimal notation
+		$source = my_preg_replace('/&#(\d+);/me',"chr(\\1)", $source);				// decimal notation
 		// convert hex
-		$source = preg_replace('/&#x([a-f0-9]+);/mei',"chr(0x\\1)", $source);	// hex notation
+//		$source = my_preg_replace('/&#x([a-f0-9]+);/mei',"chr(0x\\1)", $source);	// hex notation
+		$source = preg_replace_callback(
+			'/&#x([a-f0-9]+);/mi',
+			function ($m) { return chr(hexdec('0x'.$m[1])); },
+			$source
+		);
 		return $source;
 	}
 }

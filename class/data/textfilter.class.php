@@ -9,6 +9,7 @@
 
 	
 	lt_include( PLOG_CLASS_PATH."class/data/stringutils.class.php" );
+	lt_include( PLOG_CLASS_PATH."class/data/preg_wrapper.php" );
 	
 	/**
 	 * default character used as the word separator, instead of blank spaces
@@ -67,11 +68,11 @@
             }
 
                 // WP bug fix for LOVE <3 (and other situations with '<' before a number)
-            $string = preg_replace('/<([0-9]+)/', '&lt;$1', $string);
+            $string = my_preg_replace('/<([0-9]+)/', '&lt;$1', $string);
                 // some nice people might like to use "<  >" without meaning to do HTML?
-            $string = preg_replace('/<( *)>/', '&lt;$1&gt;', $string);
+            $string = my_preg_replace('/<( *)>/', '&lt;$1&gt;', $string);
         
-//            $string = preg_replace('/<.*>/', '&lt;', $string);
+//            $string = my_preg_replace('/<.*>/', '&lt;', $string);
 
 			$string = strip_tags( $string, $htmlAllowedTags );
             $string = TextFilter::balanceTags($string);
@@ -105,7 +106,8 @@
 		 */
 		function filterHTMLEntities( $string )
 		{
-			return htmlentities( $string );
+//			return htmlentities( $string );
+			return htmlspecialchars( $string );
 		}
 
         /**
@@ -155,23 +157,23 @@
                     $curl = str_replace("...", '&#8230;', $curl);
                     $curl = str_replace('``', '&#8220;', $curl);
 
-                    $curl = preg_replace("/'s/", "&#8217;s", $curl);
-                    $curl = preg_replace("/'(\d\d(?:&#8217;|')?s)/", "&#8217;$1", $curl);
-                    $curl = preg_replace('/(\s|\A|")\'/', '$1&#8216;', $curl);
-                    $curl = preg_replace("/(\d+)\"/", "$1&Prime;", $curl);
-                    $curl = preg_replace("/(\d+)'/", "$1&prime;", $curl);
-                    $curl = preg_replace("/(\S)'([^'\s])/", "$1&#8217;$2", $curl);
-                    $curl = preg_replace('/"([\s.]|\Z)/', '&#8221;$1', $curl);
-                    $curl = preg_replace('/(\s|\A)"/', '$1&#8220;', $curl);
-                    $curl = preg_replace("/'([\s.]|\Z)/", '&#8217;$1', $curl);
-                    $curl = preg_replace("/\(tm\)/i", '&#8482;', $curl);
-                    $curl = preg_replace("/\(c\)/i", '&#169;', $curl);
-                    $curl = preg_replace("/\(r\)/i", '&#174;', $curl);
+                    $curl = my_preg_replace("/'s/", "&#8217;s", $curl);
+                    $curl = my_preg_replace("/'(\d\d(?:&#8217;|')?s)/", "&#8217;$1", $curl);
+                    $curl = my_preg_replace('/(\s|\A|")\'/', '$1&#8216;', $curl);
+                    $curl = my_preg_replace("/(\d+)\"/", "$1&Prime;", $curl);
+                    $curl = my_preg_replace("/(\d+)'/", "$1&prime;", $curl);
+                    $curl = my_preg_replace("/(\S)'([^'\s])/", "$1&#8217;$2", $curl);
+                    $curl = my_preg_replace('/"([\s.]|\Z)/', '&#8221;$1', $curl);
+                    $curl = my_preg_replace('/(\s|\A)"/', '$1&#8220;', $curl);
+                    $curl = my_preg_replace("/'([\s.]|\Z)/", '&#8217;$1', $curl);
+                    $curl = my_preg_replace("/\(tm\)/i", '&#8482;', $curl);
+                    $curl = my_preg_replace("/\(c\)/i", '&#169;', $curl);
+                    $curl = my_preg_replace("/\(r\)/i", '&#174;', $curl);
 
                     $curl = str_replace("''", '&#8221;', $curl);
-                    $curl = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $curl);
+                    $curl = my_preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $curl);
 
-                    $curl = preg_replace('/(d+)x(\d+)/', "$1&#215;$2", $curl);
+                    $curl = my_preg_replace('/(d+)x(\d+)/', "$1&#215;$2", $curl);
                } elseif (strstr($curl, '<code') || strstr($curl, '<pre') || strstr($curl, '<kbd' || strstr($curl, '<style') || strstr($curl, '<script'))) {
                		// strstr is fast
             		$next = false;
@@ -195,13 +197,13 @@
          */
 		function autoP($pee, $br=1)
         {
-			$pee = preg_replace("/(\r\n|\n|\r)/", "\n", $pee); // cross-platform newline
-            $pee = preg_replace("/\n\n+/", "\n\n", $pee); // take care of duplicates
-        	$pee = preg_replace('/\n?(.+?)(\n\n|\z)/s', "<p>$1</p>\n", $pee); // make paragraphs, including one at the end
-        	$pee = preg_replace('/<p>(<(?:table|[ou]l|pre|select|form|blockquote)>)/', "$1", $pee);
-        	$pee = preg_replace('!(</?(?:table|[ou]l|pre|select|form|blockquote)>)</p>!', "$1", $pee);
-        	if ($br) $pee = preg_replace('|(?<!</p>)\s*\n|', "<br />\n", $pee); // optionally make line breaks
-        	$pee = preg_replace('!(</(?:table|[ou]l|pre|select|form|blockquote)>)<br />!', "$1", $pee);
+			$pee = my_preg_replace("/(\r\n|\n|\r)/", "\n", $pee); // cross-platform newline
+            $pee = my_preg_replace("/\n\n+/", "\n\n", $pee); // take care of duplicates
+        	$pee = my_preg_replace('/\n?(.+?)(\n\n|\z)/s', "<p>$1</p>\n", $pee); // make paragraphs, including one at the end
+        	$pee = my_preg_replace('/<p>(<(?:table|[ou]l|pre|select|form|blockquote)>)/', "$1", $pee);
+        	$pee = my_preg_replace('!(</?(?:table|[ou]l|pre|select|form|blockquote)>)</p>!', "$1", $pee);
+        	if ($br) $pee = my_preg_replace('|(?<!</p>)\s*\n|', "<br />\n", $pee); // optionally make line breaks
+        	$pee = my_preg_replace('!(</(?:table|[ou]l|pre|select|form|blockquote)>)<br />!', "$1", $pee);
         	$pee = str_replace('<p><p>', '<p>', $pee);
         	$pee = str_replace('</p></p>', '</p>', $pee);
 
@@ -223,8 +225,8 @@
 		function htmlDecode( $htmlString, $quote_style = ENT_QUOTES )
 		{
             // replace numeric entities
-            $htmlString = preg_replace('~&#x([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $htmlString);
-            $htmlString = preg_replace('~&#([0-9]+);~e', 'chr(\\1)', $htmlString);
+            $htmlString = my_preg_replace('~&#x([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $htmlString);
+            $htmlString = my_preg_replace('~&#([0-9]+);~e', 'chr(\\1)', $htmlString);
             // get the entity translation table from PHP (current encoding is ISO-8859-1)
             $trans_table = get_html_translation_table( HTML_ENTITIES, $quote_style );
             // when we want to decode the input string to normalized string, there are two factors 
@@ -275,9 +277,9 @@
 		      // put all the html entities back to what they should be
 		      $result = TextFilter::htmlDecode( $result );
 		      // and remove everything which is not letters or numbers
-		      $result = preg_replace( "/[^A-Za-z0-9_]/", " ", $result );
+		      $result = my_preg_replace( "/[^A-Za-z0-9_]/", " ", $result );
 		      // finally, remove the unnecessary spaces
-		      $result = preg_replace( "/ +/", " ", $result );
+		      $result = my_preg_replace( "/ +/", " ", $result );
 		      
 		      return $result;
 		}
@@ -312,7 +314,7 @@
             $nestable_tags = array('blockquote', 'div', 'span'); 
 
                 // WP bug fix for LOVE <3 (and other situations with '<' before a number)
-            $text = preg_replace('#<([0-9]{1})#', '&lt;$1', $text);
+            $text = my_preg_replace('#<([0-9]{1})#', '&lt;$1', $text);
 
             while ( preg_match("/<(\/?[\w:]*)\s*([^>]*)>/", $text, $regex) ) {
                 $newtext .= $tagqueue;
@@ -417,7 +419,7 @@
             $separator = $config->getValue( "urlize_word_separator", URLIZE_WORD_SEPARATOR_DEFAULT );
 
             // remove unnecessary spaces and make everything lower case
-		    $string = preg_replace( "/ +/", " ", strtolower($string) );
+		    $string = my_preg_replace( "/ +/", " ", strtolower($string) );
 
             // removing a set of reserved characters (rfc2396: ; / ? : @ & = + $ ,)
             $string = str_replace(array(';','/','?',':','@','&','=','+','$',','),
@@ -441,15 +443,15 @@
             
                 // and everything that is still left that hasn't been
                 // replaced/encoded, throw it away
-                // NOTE: need double backslash to pass the escape to preg_replace
+                // NOTE: need double backslash to pass the escape to my_preg_replace
             $good_characters = "a-z0-9.\\".$separator;
             if(!$domainize){
                 $good_characters .= "_\\-";
             }
-            $string = preg_replace( '/[^'.$good_characters.']/', '', $string );        
+            $string = my_preg_replace( '/[^'.$good_characters.']/', '', $string );        
             
                 // remove doubled separators
-            $string = preg_replace("/[".$separator."]+/", $separator, $string);
+            $string = my_preg_replace("/[".$separator."]+/", $separator, $string);
                 // remove starting and trailing separator chars
             $string = trim($string, $separator);
             if($domainize){
@@ -534,9 +536,9 @@
                 $validChars = "_0-9a-zA-Z.-";
             }
                 // remove "bad" characters
-            $string = preg_replace("/[^".$validChars."]/", $separator, strip_tags(Textfilter::htmlDecode($string)));
+            $string = my_preg_replace("/[^".$validChars."]/", $separator, strip_tags(Textfilter::htmlDecode($string)));
                 // remove doubled separators
-            $string = preg_replace("/[".$separator."]+/", $separator, $string);
+            $string = my_preg_replace("/[".$separator."]+/", $separator, $string);
                 // remove starting and trailing separator chars
             $string = trim($string, $separator);
 				// and convert to lowercase

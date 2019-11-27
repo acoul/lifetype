@@ -550,18 +550,21 @@ class XML_Tree_Node {
                            $xml
                           );
 
-        $xml = preg_replace(array("/\&([a-z\d\#]+)\;/i",
-                                  "/\&/",
-                                  "/\#\|\|([a-z\d\#]+)\|\|\#/i",
-                                  "/([^a-zA-Z\d\s\<\>\&\;\.\:\=\"\-\/\%\?\!\'\(\)\[\]\{\}\$\#\+\,\@_])/e"
-                                 ),
-                            array("#||\\1||#",
-                                  "&amp;",
-                                  "&\\1;",
-                                  "'&#'.ord('\\1').';'"
-                                 ),
-                            $xml
-                           );
+	$xml = preg_replace_callback_array(
+        [
+            "/\&([a-z\d\#]+)\;/i" => function($matches) {
+		return '#||'.$matches[1].'||#';
+            },
+            "/\&/" => function($matches) {
+                return "&amp;";
+            },
+            "/\#\|\|([a-z\d\#]+)\|\|\#/i" => function($matches) {
+                return '&'.$matches[1].';';
+            },
+	    "/([^a-zA-Z\d\s\<\>\&\;\.\:\=\"\-\/\%\?\!\'\(\)\[\]\{\}\$\#\+\,\@_])/" => function($matches) {
+                return '&#'.ord($matches[1]).';';
+            }
+        ], $xml);
 
         return $xml;
     }

@@ -106,10 +106,12 @@
            
 			$result = $this->Execute( $owner );
 
+	    if ($result)
             while( $row = $result->FetchRow($result)) {
                 $usersBlogs[] = $blogs->mapRow( $row );
                 $ids[] = $row["id"];
             }
+	    if ($result)
             $result->Close();
 
             // and now check to which other blogs he or she belongs
@@ -125,10 +127,12 @@
             $result = $this->Execute( $otherBlogs );
             // now we know to which he or she belongs, so we only have
             // to load the information about those blogs
+	    if ($result)
             while( $row = $result->FetchRow($result)) {
 				$id = $row["blog_id"];
                 $usersBlogs[] = $blogs->getBlogInfo( $id );
             }
+	    if ($result)
             $result->Close();
 
             sort($usersBlogs);

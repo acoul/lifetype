@@ -49,12 +49,12 @@
 			// connection parameters, we either need to select the database *everytime* we want to make 
 			// a query or use slightly different connection paramters. I am not sure if this has any
 			// performance hit, though.
-			mysql_select_db( $this->_dbname, $this->_res );
+			mysqli_select_db( $this->_res, $this->_dbname );
 			
 			// increment the number of queries executed so far, regardless of what they were
 			$__pdb_num_queries++;
 			
-			$result = mysql_query( $query, $this->_res );
+			$result = mysqli_query( $this->_res, $query );
 			if( !$result ) {
 			    if( $this->_debug ) {
 			       print("<hr/>ERROR MESSAGE: ".$this->ErrorMsg()."<br/>");
@@ -75,19 +75,19 @@
 			PDbDriverBase::Connect( $host, $username, $password, $dbname );
 			
 			// try to connect and quit if unsuccessful
-			$this->_res = mysql_connect( $host, $username, $password );			
+			$this->_res = mysqli_connect( $host, $username, $password, $dbname );			
 			if( !$this->_res )
 				return false;
 				
 			// set the right character encoding for mysql 4.1+ client, connection and collation
 			if( !empty( $dbcharset ) && $dbcharset != "default" ) {
-	           	mysql_query( "SET NAMES ".$dbcharset, $this->_res );
+	           	mysqli_query( $this->_res, "SET NAMES ".$dbcharset );
 				$this->_charset = $dbcharset;
 			}
 				
 			// continue otherwise and try to select our db
 			if( $dbname )
-				return( mysql_select_db( $dbname, $this->_res ));
+				return( mysqli_select_db( $this->_res, $dbname ));
 			else
 				return( true );
 		}
@@ -100,19 +100,19 @@
 			PDbDriverBase::Connect( $host, $username, $password, $dbname );			
 			
 			// try to connect and quit if unsuccessful
-			$this->_res = mysql_pconnect( $host, $username, $password );			
+			$this->_res = mysqli_connect( $host, $username, $password, $dbname );			
 			if( !$this->_res )
 				return false;				
 				
 			// set the right character encoding for mysql 4.1+ client, connection and collation
 			if( !empty( $dbcharset ) && $dbcharset != "default" ) {
-	           	mysql_query( "SET NAMES ".$dbcharset, $this->_res );
+	           	mysqli_query( $this->_res, "SET NAMES ".$dbcharset );
 				$this->_charset = $dbcharset;	
 			}
 
 			// continue otherwise and try to select our db
 			if( $dbname )
-				return( mysql_select_db( $dbname, $this->_res ));
+				return( mysqli_select_db( $this->_res, $dbname ));
 			else
 				return( true );
 		}
@@ -122,7 +122,7 @@
 		 */		
 		function Close()
 		{
-		    return( mysql_close( $this->_res ));
+		    return( mysqli_close( $this->_res ));
 		}
 		
 		/**
@@ -130,7 +130,7 @@
 		 */		
 		function ErrorMsg()
 		{
-			return( mysql_error( $this->_res ));	
+			return( mysqli_error( $this->_res ));	
 		}
 		
 		/**
@@ -138,7 +138,7 @@
 		 */		
 		function Insert_ID()
 		{
-			return( mysql_insert_id( $this->_res ));
+			return( mysqli_insert_id( $this->_res ));
 		}
 		
 		/**
@@ -146,7 +146,7 @@
 		 */		
 		function Affected_Rows()
 		{
-		    return( mysql_affected_rows( $this->_res ));
+		    return( mysqli_affected_rows( $this->_res ));
 		}
 		
 		/**

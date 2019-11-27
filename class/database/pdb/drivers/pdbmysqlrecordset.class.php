@@ -25,7 +25,7 @@
 	     */		
 		function FetchRow()
 		{
-			return( mysql_fetch_assoc( $this->_dbRes ));
+			return( mysqli_fetch_assoc( $this->_dbRes ));
 		}
 
 	    /**
@@ -33,7 +33,7 @@
 	     */				
 		function RecordCount()
 		{
-			return( mysql_num_rows( $this->_dbRes ));
+			return( mysqli_num_rows( $this->_dbRes ));
 		}
 		
 	    /**
@@ -41,7 +41,7 @@
 	     */				
 		function Close()
 		{
-		    return( mysql_free_result( $this->_dbRes ));
+		    return( mysqli_free_result( $this->_dbRes ));
 		}
 	}
 ?>

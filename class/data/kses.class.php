@@ -47,6 +47,9 @@
 	 *
 	 * Email:    View current valid email address at http://www.chaos.org/contact/
 	 */
+
+	lt_include( PLOG_CLASS_PATH."class/data/preg_wrapper.php" );
+
 	class kses
 	{
 		var $allowed_protocols = array('http', 'https', 'ftp', 'news', 'nntp', 'telnet', 'gopher', 'mailto', 'irc', 'mms' );
@@ -199,8 +202,8 @@
 		###############################################################################
 		function _no_null($string)
 		{
-			$string = preg_replace('/\0+/', '', $string);
-			$string = preg_replace('/(\\\\0)+/', '', $string);
+			$string = my_preg_replace('/\0+/', '', $string);
+			$string = my_preg_replace('/(\\\\0)+/', '', $string);
 			//
 			// NOTE TO SELF: this was apparently messing up utf-8 texts!!! Removed for now...
 			//
@@ -214,7 +217,7 @@
 		###############################################################################
 		function _js_entities($string)
 		{
-		  return preg_replace('%&\s*\{[^}]*(\}\s*;?|$)%', '', $string);
+		  return my_preg_replace('%&\s*\{[^}]*(\}\s*;?|$)%', '', $string);
 		} # function _js_entities
 
 
@@ -229,18 +232,22 @@
 
 			# Change back the allowed entities in our entity white list
 
-		  $string = preg_replace('/&amp;([A-Za-z][A-Za-z0-9]{0,19});/', '&\\1;', $string);
-		  $string = preg_replace('/&amp;#0*([0-9]{1,5});/e', '\$this->_normalize_entities2("\\1")', $string);
-		  $string = preg_replace('/&amp;#([Xx])0*(([0-9A-Fa-f]{2}){1,2});/', '&#\\1\\2;', $string);
+		  $string = my_preg_replace('/&amp;([A-Za-z][A-Za-z0-9]{0,19});/', '&\\1;', $string);
+		  $string = preg_replace_callback(
+		  				   '/&amp;#0*([0-9]{1,5});/', 
+						   function($m) { return $this->_normalize_entities2($m[1]); }, 
+						   $string
+		  ); 
+		  $string = my_preg_replace('/&amp;#([Xx])0*(([0-9A-Fa-f]{2}){1,2});/', '&#\\1\\2;', $string);
 		  
 		  if( $this->xhtmlConverterOnly && $this->aggressiveMode ) {
 		      // take care of the '>' and '<' that don't belong to any tag
-		      $string = preg_replace("/(\s+)(<)(\s+)/", "\\1&lt;\\3", $string );
-		      $string = preg_replace("/(\[^A-Za-z]+)(<)([^A-Za-z]+)/", "\\1&lt;\\3", $string );		      
-		      $string = preg_replace("/(\s+)(>)(\s+)/", "\\1&gt;\\3", $string );		  
+		      $string = my_preg_replace("/(\s+)(<)(\s+)/", "\\1&lt;\\3", $string );
+		      $string = my_preg_replace("/(\[^A-Za-z]+)(<)([^A-Za-z]+)/", "\\1&lt;\\3", $string );		      
+		      $string = my_preg_replace("/(\s+)(>)(\s+)/", "\\1&gt;\\3", $string );		  
 		  
 		       // also, normalize whatever is within <code>...</code> tags but only in the "xhtml converter" mode		  
-    		   $string = preg_replace("/(.*<code>)(.*)(<\/code>.*)/e", '"\\1".$this->_tmp("\\2")."\\3"', $string );    		   
+    		   $string = my_preg_replace("/(.*<code>)(.*)(<\/code>.*)/e", '"\\1".$this->_tmp("\\2")."\\3"', $string );    		   
           }  
 
 		  return $string;
@@ -249,9 +256,13 @@
 		function _tmp($string)
 		{
 		  $string = htmlspecialchars($string);		
-		  $string = preg_replace('/&amp;([A-Za-z][A-Za-z0-9]{0,19});/', '&\\1;', $string);
-		  $string = preg_replace('/&amp;#0*([0-9]{1,5});/e', '\$this->_normalize_entities2("\\1")', $string);
-		  $string = preg_replace('/&amp;#([Xx])0*(([0-9A-Fa-f]{2}){1,2});/', '&#\\1\\2;', $string);
+		  $string = my_preg_replace('/&amp;([A-Za-z][A-Za-z0-9]{0,19});/', '&\\1;', $string);
+		  $string = preg_replace_callback(
+		  				    '/&amp;#0*([0-9]{1,5});/',
+						    function($m) { return $this->_normalize_entities2($m[1]); },
+						    $string
+		  );
+		  $string = my_preg_replace('/&amp;#([Xx])0*(([0-9A-Fa-f]{2}){1,2});/', '&#\\1\\2;', $string);
 		  
 		  return $string;		
 		}
@@ -301,12 +312,12 @@
 		###############################################################################
 		function _split($string)
 		{
-			return preg_replace(
+			return preg_replace_callback(
 				'%(<'.   # EITHER: <
 				'[^>]*'. # things that aren't >
-				'>'. 	 # must >
-				'|>)%e', # OR: just a >
-				"\$this->_split2('\\1')",
+				'>'.     # must >
+				'|>)%', # OR: just a >
+				function($m) { return $this->_split2($m[1]); },
 				$string);
 		} # function _split
 
@@ -420,7 +431,7 @@
 			} # foreach
 
 			# Remove any "<" or ">" characters
-			$attr2 = preg_replace('/[<>]/', '', $attr2);
+			$attr2 = my_preg_replace('/[<>]/', '', $attr2);
 			return "<$element$attr2$xhtml_slash>";
 		} # function _attr
 
@@ -451,7 +462,7 @@
 						{
 							$attrname = strtolower($match[1]);
 							$working = $mode = 1;
-							$attr = preg_replace('/^[-a-zA-Z]+/', '', $attr);
+							$attr = my_preg_replace('/^[-a-zA-Z]+/', '', $attr);
 						}
 						break;
 					case 1:	# equals sign or valueless ("selected")
@@ -459,7 +470,7 @@
 						{
 							$working = 1;
 							$mode    = 2;
-							$attr    = preg_replace('/^\s*=\s*/', '', $attr);
+							$attr    = my_preg_replace('/^\s*=\s*/', '', $attr);
 							break;
 						}
 						if (preg_match('/^\s+/', $attr)) # valueless
@@ -472,7 +483,7 @@
 								'whole' => $attrname,
 								'vless' => 'y'
 							);
-							$attr      = preg_replace('/^\s+/', '', $attr);
+							$attr      = my_preg_replace('/^\s+/', '', $attr);
 						}
 						break;
 					case 2: # attribute value, a URL after href= for instance
@@ -487,7 +498,7 @@
 							);
 							$working   = 1;
 							$mode      = 0;
-							$attr      = preg_replace('/^"[^"]*"(\s+|$)/', '', $attr);
+							$attr      = my_preg_replace('/^"[^"]*"(\s+|$)/', '', $attr);
 							break;
 						}
 						if (preg_match("/^'([^']*)'(\s+|$)/", $attr, $match)) # 'value'
@@ -501,7 +512,7 @@
 							);
 							$working   = 1;
 							$mode      = 0;
-							$attr      = preg_replace("/^'[^']*'(\s+|$)/", '', $attr);
+							$attr      = my_preg_replace("/^'[^']*'(\s+|$)/", '', $attr);
 							break;
 						}
 						if (preg_match("%^([^\s\"']+)(\s+|$)%", $attr, $match)) # value
@@ -516,7 +527,7 @@
 							# We add quotes to conform to W3C's HTML spec.
 							$working   = 1;
 							$mode      = 0;
-							$attr      = preg_replace("%^[^\s\"']+(\s+|$)%", '', $attr);
+							$attr      = my_preg_replace("%^[^\s\"']+(\s+|$)%", '', $attr);
 						}
 						if( $this->xhtmlConverterOnly ) {												
                             if (preg_match("%^([^\s\"']+)(\s+|\"$)%", $attr, $match)) # value"
@@ -531,7 +542,7 @@
                                 # We add quotes to conform to W3C's HTML spec.
                                 $working   = 1;
                                 $mode      = 0;
-                                $attr      = preg_replace("%^[^\s\"']+(\s+|\"$)%", '', $attr);
+                                $attr      = my_preg_replace("%^[^\s\"']+(\s+|\"$)%", '', $attr);
                             }
                             if (preg_match("%^\"(.*)$%", $attr, $match)) # "value
                             {
@@ -545,7 +556,7 @@
                                 # We add quotes to conform to W3C's HTML spec.
                                 $working   = 1;
                                 $mode      = 0;
-                                $attr      = preg_replace("%^\"(.*)$%", '', $attr);
+                                $attr      = my_preg_replace("%^\"(.*)$%", '', $attr);
                             }
 						}
 						
@@ -599,7 +610,7 @@
 		###############################################################################
 		function _bad_protocol_once($string)
 		{
-			return preg_replace(
+			return my_preg_replace(
 				'/^((&[^;]*;|[\sA-Za-z0-9])*)'.
 				'(:|&#58;|&#[Xx]3[Aa];)(\/|&#47;|&#[Xx]2[Ff];)(\/|&#47;|&#[Xx]2[Ff];)\s*/e',
 				'\$this->_bad_protocol_once2("\\1")',
@@ -615,7 +626,7 @@
 		function _bad_protocol_once2($string)
 		{
 			$string2 = $this->_decode_entities($string);
-			$string2 = preg_replace('/\s/', '', $string2);
+			$string2 = my_preg_replace('/\s/', '', $string2);
 			$string2 = $this->_no_null($string2);
 			$string2 = strtolower($string2);
 			
@@ -721,7 +732,7 @@
 		###############################################################################
 		function _stripslashes($string)
 		{
-			return preg_replace('%\\\\"%', '"', $string);
+			return my_preg_replace('%\\\\"%', '"', $string);
 		} # function _stripslashes
 
 		###############################################################################
@@ -731,7 +742,7 @@
 		###############################################################################
 		function _html_error($string)
 		{
-			$result = preg_replace('/^("[^"]*("|$)|\'[^\']*(\'|$)|\S)*\s*/', '', $string);
+			$result = my_preg_replace('/^("[^"]*("|$)|\'[^\']*(\'|$)|\S)*\s*/', '', $string);
 			return $result;
 		} # function _html_error
 
@@ -742,8 +753,8 @@
 		###############################################################################
 		function _decode_entities($string)
 		{
-			$string = preg_replace('/&#([0-9]+);/e', 'chr("\\1")', $string);
-			$string = preg_replace('/&#[Xx]([0-9A-Fa-f]+);/e', 'chr(hexdec("\\1"))', $string);
+			$string = my_preg_replace('/&#([0-9]+);/e', 'chr("\\1")', $string);
+			$string = my_preg_replace('/&#[Xx]([0-9A-Fa-f]+);/e', 'chr(hexdec("\\1"))', $string);
 			return $string;
 		} # function _decode_entities
 

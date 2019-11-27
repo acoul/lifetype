@@ -60,7 +60,7 @@
      */
     class RequestGenerator  
     {	
-		var $_mode;
+		public $_mode;
 
         function getRequestGenerator( $blogInfo = null, $mode = CHECK_CONFIG_REQUEST_MODE )
         {
@@ -70,18 +70,18 @@
                 $mode   = $config->getValue( "request_format_mode" );
             }
 
-            $this->_mode  = $mode;
+            $_mode  = $mode;
 
             // load the correct generator, while doing some nice dynamic loading...
-            if( $this->_mode == SEARCH_ENGINE_FRIENDLY_MODE ) {
+            if( $_mode == SEARCH_ENGINE_FRIENDLY_MODE ) {
                 lt_include( PLOG_CLASS_PATH."class/net/prettyrequestgenerator.class.php" );
                 $rg = new PrettyRequestGenerator( $blogInfo );
             } 
-            elseif( $this->_mode == MODREWRITE_MODE ) {
+            elseif( $_mode == MODREWRITE_MODE ) {
                 lt_include( PLOG_CLASS_PATH."class/net/modrewriterequestgenerator.class.php" );
                 $rg = new ModRewriteRequestGenerator( $blogInfo );
             } 
-            elseif( $this->_mode == CUSTOM_REQUEST_MODE ) {
+            elseif( $_mode == CUSTOM_REQUEST_MODE ) {
                 lt_include( PLOG_CLASS_PATH."class/net/customrequestgenerator.class.php" );
                 $rg = new CustomRequestGenerator( $blogInfo );                
             } 
