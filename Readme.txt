@@ -7,6 +7,10 @@ use it at your own risk.
 this setup has been tested on a Gentoo 32bit system updated to November 2019 on apache-2.4.41 & php-7.2.25
 it also works on a php-5.6.40-r6
 
+Templates:
+
+this setup has been successfully tested against template standard_green
+
 Known Issues:
 
 RSS 0.90 & Atom are broken
