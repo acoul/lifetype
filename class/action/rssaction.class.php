@@ -100,7 +100,12 @@
 
             // fetch the posts, though we are going to fetch the same amount in both branches
 			$hardLimit = SiteConfig::getHardRecentPostsMax();
-			$amount = $blogSettings->getValue( "recent_posts_max", 15 );			
+			if (defined('TSUNG')) {
+				$hardLimit = 30000;
+				$amount = 30000;
+			} else {
+				$amount = $blogSettings->getValue( "recent_posts_max", 15 );			
+			}
 			if( $amount > $hardLimit ) $amount = $hardLimit;
 
 			$t = new Timestamp();
