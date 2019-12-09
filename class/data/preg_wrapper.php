@@ -35,7 +35,9 @@ function my_compile_regex($replacement)
 function my_preg_replace_internal($pattern, $replacement, $subject)
 {
     global $lwb_compiled_regexes;
-    $func = $lwb_compiled_regexes[$replacement] ?? my_compile_regex($replacement);
+    // make this php5 compatible
+    // $func = $lwb_compiled_regexes[$replacement] ?? my_compile_regex($replacement);
+    $func = isset($lwb_compiled_regexes[$replacement]) ? $lwb_compiled_regexes[$replacement] : my_compile_regex($replacement);
     return preg_replace_callback($pattern, $func, $subject);
 }
 
