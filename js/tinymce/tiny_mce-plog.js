@@ -1,4 +1,4 @@
-tinymce_plugins="more,advhr,advimage,advlink,emotions,inlinepopups,insertdatetime,searchreplace,paste,fullscreen,nonbreaking,wordcount,advlist,autosave,insertaudio,insertresource,insertvideo,embed";
+tinymce_plugins="more,advhr,advimage,advlink,emotions,inlinepopups,insertdatetime,searchreplace,paste,fullscreen,nonbreaking,wordcount,autosave,insertaudio,insertresource,insertvideo,insertyoutube,embed";
 
 tinyMCE_GZ.init({
             // user-defined plugins and themes should be identical to those in "tinyMCE.init" below.-->
@@ -22,7 +22,7 @@ tinyMCE.init({
                 // Theme options
             theme_advanced_buttons1: "formatselect,fontsizeselect,fontselect,forecolor,backcolor,bold,italic,underline,strikethrough,sub,sup,|,justifyleft,justifycenter,justifyright,justifyfull",
             theme_advanced_buttons2: "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,indent,outdent,blockquote,|,undo,redo,|,hr,advhr,charmap,insertdate,inserttime,nonbreaking,|,fullscreen",
-            theme_advanced_buttons3 : "link,unlink,anchor,|,emotions,image,insertresource,insertaudio,insertvideo,embed,|,code,more,|,cleanup,removeformat",
+            theme_advanced_buttons3 : "link,unlink,anchor,|,emotions,image,insertresource,insertaudio,insertvideo,insertyoutube,embed,|,code,more,|,cleanup,removeformat",
             theme_advanced_buttons4 : "",
             theme_advanced_toolbar_location : "top",
             theme_advanced_toolbar_align : "left",

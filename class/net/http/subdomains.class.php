@@ -44,7 +44,12 @@
 			// prepare the url
 			if( $url == null ) {
 				$server = HttpVars::getServer();
-				$urlObject = new Url( "http://".$server["HTTP_HOST"] );
+				if ( !isset($serverVars['HTTPS']) || strtolower($serverVars['HTTPS']) != 'on' ) {
+					$protocol = 'http://';
+				} else {
+					$protocol = 'https://';
+				}
+				$urlObject = new Url( $protocol.$server["HTTP_HOST"] );
 			}
 			else
 				$urlObject = new Url( $url );

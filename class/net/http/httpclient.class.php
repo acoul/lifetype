@@ -168,7 +168,7 @@ class HttpClient
 							if($this->maxredirs > $this->_redirectdepth)
 							{
 								// only follow redirect if it's on this site, or offsiteok is true
-								if(preg_match("|^http://".preg_quote($this->host)."|i",$this->_redirectaddr) || $this->offsiteok)
+								if(preg_match("|^https?://".preg_quote($this->host)."|i",$this->_redirectaddr) || $this->offsiteok)
 								{
 									/* follow the redirect */
 									$this->_redirectdepth++;
@@ -228,7 +228,7 @@ class HttpClient
 						if($this->maxredirs > $this->_redirectdepth)
 						{
 							// only follow redirect if it's on this site, or offsiteok is true
-							if(preg_match("|^http://".preg_quote($this->host)."|i",$this->_redirectaddr) || $this->offsiteok)
+							if(preg_match("|^https?://".preg_quote($this->host)."|i",$this->_redirectaddr) || $this->offsiteok)
 							{
 								/* follow the redirect */
 								$this->_redirectdepth++;
@@ -323,7 +323,7 @@ class HttpClient
 									$this->_redirectaddr = $this->_expandlinks($this->_redirectaddr,$URI_PARTS["scheme"]."://".$URI_PARTS["host"]);						
 
 								// only follow redirect if it's on this site, or offsiteok is true
-								if(preg_match("|^http://".preg_quote($this->host)."|i",$this->_redirectaddr) || $this->offsiteok)
+								if(preg_match("|^https?://".preg_quote($this->host)."|i",$this->_redirectaddr) || $this->offsiteok)
 								{
 									/* follow the redirect */
 									$this->_redirectdepth++;
@@ -390,7 +390,7 @@ class HttpClient
 								$this->_redirectaddr = $this->_expandlinks($this->_redirectaddr,$URI_PARTS["scheme"]."://".$URI_PARTS["host"]);						
 
 							// only follow redirect if it's on this site, or offsiteok is true
-							if(preg_match("|^http://".preg_quote($this->host)."|i",$this->_redirectaddr) || $this->offsiteok)
+							if(preg_match("|^https?://".preg_quote($this->host)."|i",$this->_redirectaddr) || $this->offsiteok)
 							{
 								/* follow the redirect */
 								$this->_redirectdepth++;
@@ -752,9 +752,9 @@ class HttpClient
 			$match_root =
 			$match_part["scheme"]."://".$match_part["host"];
 
-			$search = array( 	"|^http://".preg_quote($this->host)."|i",
+			$search = array( 	"|^https?://".preg_quote($this->host)."|i",
 								"|^(\/)|i",
-								"|^(?!http://)(?!mailto:)|i",
+								"|^(?!https?://)(?!mailto:)|i",
 								"|/\./|",
 								"|/[^\/]+/\.\./|"
 							);

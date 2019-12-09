@@ -232,8 +232,11 @@
             
             // finally, check if there was any user who wanted to be notified of new comments
             // to this post...
-            $notifier = new ArticleNotifications();
-            $notifier->notifyUsers( $article->getId(), $this->_blogInfo);
+            if($comment->getStatus() != COMMENT_STATUS_SPAM){
+                  // Users don't want to be notified about spam
+              $notifier = new ArticleNotifications();
+              $notifier->notifyUsers( $article->getId(), $this->_blogInfo);
+            }
 			
 			// fire the post event...
 			$this->notifyEvent( EVENT_POST_COMMENT_ADD, Array( "comment" => &$comment ));

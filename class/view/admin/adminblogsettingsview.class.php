@@ -24,6 +24,7 @@
             $blogSettings = $blogInfo->getSettings();
 			$this->setValue( "blogAbout", $this->_blogInfo->getAbout( false ));
 			$this->setValue( "blogName", $this->_blogInfo->getBlog());
+			$this->setValue( "blogUseSsl", $blogSettings->getValue( "use_ssl" ));
             $this->setValue( "blogLocale", $blogSettings->getValue( "locale" ));
 			$this->setValue( "blogMaxRecentItems", $blogSettings->getValue( "recent_posts_max" ));
 			$this->setValue( "blogMaxMainPageItems", $blogSettings->getValue( "show_posts_max" ));

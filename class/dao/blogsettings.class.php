@@ -32,6 +32,7 @@
 		{
 			$config =& Config::getConfig();
 
+			$this->setValue( "use_ssl", 0 );
 			$this->setValue( "locale", $config->getValue("default_locale"));
 			$this->setValue( "show_posts_max", $config->getValue( "show_posts_max" ));
 			$this->setValue( "template", $config->getValue("default_template"));

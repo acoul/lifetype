@@ -117,6 +117,7 @@
         	// fetch the settings from the db and update them accordingly
             $blogs = new Blogs();
             $blogSettings = $this->_blogInfo->getSettings();
+           	$blogSettings->setValue( "use_ssl",  Textfilter::checkboxToBoolean($this->_request->getValue( "blogUseSsl" )));
             $blogSettings->setValue( "locale", $this->_request->getValue( "blogLocale" ));
             $blogSettings->setValue( "show_posts_max", $this->_request->getValue( "blogMaxMainPageItems" ));
             $blogSettings->setValue( "recent_posts_max", $this->_request->getValue( "blogMaxRecentItems" ));

@@ -1,3 +1,3 @@
 <?php
-$version = "lifetype-1.2.12_r7211";
+$version = 'lifetype-1.2.13-dev';
 ?>

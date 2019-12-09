@@ -91,7 +91,16 @@
                 $this->_subdomainsBaseUrl = str_replace("{blogdomain}",
                                                         $blogInfo->getCustomDomain(),
                                                         $this->_subdomainsBaseUrl);
+
+					// If blog wants ssl, modify the URL for them
+				$blogSettings = $blogInfo->getSettings();
+				if($blogSettings->getValue("use_ssl")){
+					$this->_subdomainsBaseUrl = str_replace("http://", "https://", $this->_subdomainsBaseUrl);
+				}
 			}
+
+
+			
             $this->_scriptName = $config->getValue( "script_name", DEFAULT_SCRIPT_NAME );
 			
 			// enable the xhtml mode by default, but it can be turned off

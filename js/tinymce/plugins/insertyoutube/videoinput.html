@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{#insertyoutube_dlg.desc}</title>
+    <script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+    <script language="javascript" type="text/javascript" src="functions.js"></script>
+    <script type="text/javascript">
+        init();
+    </script>
+    <base target="_self" />
+</head>
+<body style="display: none">
+    <form name="video" id="video" method="post" action="#">
+        <div class="tabs">
+            <ul>
+                <li id="general_tab" class="current"><span>{#insertyoutube_dlg.desc}</span></li>
+            </ul>
+        </div>
+        <div class="panel_wrapper">
+            <div id="general_panel" class="panel_current">
+                <legend>{#insertyoutube_dlg.linklegend}</legend>
+                <table border="0" cellpadding="4" cellspacing="0">
+                    <tr>
+                        <td nowrap="nowrap">{#insertyoutube_dlg.link}</td>
+                        <td><input type="text" id="url" name="url" value="" {#insertyoutube_dlg.inputurlstyle} /></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="mceActionPanel">
+            <div style="float:left">
+                <input type="button" name="insert" value="{#insert}" onClick="insertYoutubeCode()" id="insert" />
+            </div>
+            <div style="float:right">
+                <input type="button" name="cancel" value="{#close}" onclick="tinyMCEPopup.close();" id="cancel" />
+            </div>
+        </div>
+    </form>
+</body>
+</html>

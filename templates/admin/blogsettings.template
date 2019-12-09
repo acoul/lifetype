@@ -35,6 +35,15 @@
       {include file="$admintemplatepath/validate.template" field=blogSubDomain message=$locale->tr("error_invalid_subdomain")}
       {include file="$admintemplatepath/validate.template" field=blogMainDomain message=$locale->tr("error_invalid_domain")}
     </div>
+
+     <div class="field">
+      <label for="blogUseSsl">{$locale->tr("use_ssl")}</label>
+      <div class="formHelp">
+	    <input class="checkbox" type="checkbox" value="1" name="blogUseSsl" id="blogUseSsl" {if $blogUseSsl == true} checked="checked" {/if} />
+	    {$locale->tr("use_ssl_help")}
+      </div> 
+     </div>
+
     {/if}
 
     <div class="field">
